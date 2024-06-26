@@ -1,0 +1,83 @@
+{% include 'partials/svg.html.twig' %}
+<header class="p-3 mb-3 border-bottom bg-dark">
+    <div class="container">
+      <div class="d-flex gap-3 flex-wrap align-items-center justify-content-center">
+        {# logo #}
+        <div>
+            {% if app.user %}
+                <a class="nav nav-link" href="{{path('app_homeUser')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% else %}
+                <a class="nav nav-link" href="{{path('app_home')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% endif %}
+        </div>
+        <a href="{{path('addAnnonce')}}">
+            <button class="btn btn-primary align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-patch-plus" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5"/>
+            <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z"/>
+            </svg>
+            Ajouter une annonce
+            </button>
+        </a>
+        {# barre de recherche #}
+        <div>
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <div class="d-flex align-items-center">
+                    <input class='search' type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                    <button class="btn btn-primary" type="submit">
+                    Recherche
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="d-flex align-items-center">
+        {# menu #}
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0 gap-3">
+                <li>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                        </svg>
+                        <a href="#" class="nav-link px-2 link-light">Favoris</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+                        </svg>
+                        <a href="#" class="nav-link px-2 link-light">Messages</a>
+                    </div>
+                </li>
+                {% if app.user %}
+                      </ul>
+                    {# connexion #}
+                    <div class="dropdown text-end">
+                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        
+                        <li><a class="dropdown-item" href="{{path('app_logout')}}">Sign out</a></li>
+                        {% else %}
+                        <li>
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                </svg>
+                                <a href="{{path('app_login')}}" class="nav-link px-2 link-light">Se connecter</a>
+                            </div>
+                        </li>
+                {% endif %}
+                
+               </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </header>

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}editAnnonce{% endblock %}
+
+{% block body %}
+    {% include 'partials/navbar.html.twig' %}
+    <!-- Content -->
+    <div class="col-md-12">
+        <div class="card mb-4 my-3">
+        <h5 class="card-header">Modifier l'annonce</h5>
+        <!-- Account -->
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+            {{ form_start(formEditannonce) }}
+            {{ form_row(formEditannonce.thumbnailFile) }}
+            </div>
+        </div>
+        <hr class="my-0" />
+        <div class="card-body">
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                <label for="title" class="form-label">Titre</label>
+                {{form_row(formEditannonce.title)}}
+                </div>
+                <div class="mb-3 col-md-6">
+                <label for="description" class="form-label">Description</label>
+                {{form_row(formEditannonce.description)}}
+                </div>
+                <div class="mb-3 col-md-6">
+                <label for="price" class="form-label">Prix</label>
+                {{form_row(formEditannonce.price)}}
+                </div>
+                <div class="mb-3 col-md-6">
+                <label class="form-label" for="category">Categorie</label>
+                {{form_row(formEditannonce.category)}}
+                </div>
+            <div class="d-flex mt-2">
+                {{ form_row(formEditannonce.save) }}
+            </div>
+            {{ form_end(formEditannonce) }}
+        </div>
+        <!-- /Account -->
+        </div>
+    </div>
+<!-- / Content -->
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}

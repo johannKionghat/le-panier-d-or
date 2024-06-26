@@ -1,0 +1,16 @@
+.btn-primary{
+    background:rgb(237, 105, 22) !important;
+    border:2px solid rgb(237, 105, 22) !important;
+    border-radius: 0px 5px 5px 0px;
+    height: 50px;
+}
+.search{
+    border-radius: 5px 0px 0px 5px !important;
+    padding: 10px;
+    border: 2px solid white;
+    height: 50px;
+    
+}
+ul{
+    list-style: none !important;
+}

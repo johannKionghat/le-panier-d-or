@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+
+<div class="d-flex justify-content-center bg-dark align-items-center min-vh-100 p-3">
+    <div class="container text-center py-3" style="border-radius: 10px; width:max-content;">
+        <form method="post">
+        <div>
+        {% if app.user %}
+                <a class="nav nav-link" href="{{path('app_homeUser')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% else %}
+                <a class="nav nav-link" href="{{path('app_home')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% endif %}
+        {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+        <div class="mb-3">
+        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+        {% endif %}
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating mb-4">
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+        <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <label for="floatingPassword">Password</label>
+        </div>
+        
+        <div class="checkbox m-3 d-flex justify-content-center align-items-center gap-3 ">
+            <input id="rememberme" type="checkbox" name="_remember_me">
+            <label class="text-light" for="rememberme"> Remember me</label>
+        </div>
+        <input type="hidden" name="_csrf_token"
+        value="{{ csrf_token('authenticate') }}"
+        >
+        <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">Sign in</button>
+        <small class="text-muted">Vous avez pas de compte ?</small><a href="{{path('app_register')}}">creer un compte</a>
+        <p class="mt-5 mb-3 text-light">&copy; 2024 ECE ART-B FINANCE </p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

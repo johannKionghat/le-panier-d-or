@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center bg-dark align-items-center min-vh-100 p-3">
+    <div class="container text-center py-3" style="border-radius: 10px; width:max-content;">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+        {% if app.user %}
+                <a class="nav nav-link" href="{{path('app_homeUser')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% else %}
+                <a class="nav nav-link" href="{{path('app_home')}}">
+                <h1><strong>Le Panier d'Or</strong></h1>
+            </a>
+            {% endif %}
+        <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        <div class="form-floating">
+        {{ form_row(registrationForm.email) }}
+        </div>
+        <div class="form-floating">
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        </div>
+        <div class="checkbox m-3 d-flex justify-content-center align-items-center gap-3 ">
+        <label class="text-light" for="terms"> I agree terms.</label>
+        {{ form_row(registrationForm.agreeTerms) }}
+        </div>
+        <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">Register</button>
+        <small class="text-muted">Vous avez déjà un compte ?</small><a href="{{path('app_login')}}">connecter un vous</a>
+        <p class="mt-5 mb-3 text-light">&copy; 2024 ECE ART-B FINANCE </p>
+    {{ form_end(registrationForm) }}
+    </div>
+</div>
+{% endblock %}
