@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ListingsRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -48,6 +49,9 @@ class Listings
      */
     #[ORM\OneToMany(targetEntity: Messages::class, mappedBy: 'listing')]
     private Collection $messages;
+
+    #[ORM\Column(length: 1000)]
+    private ?string $shortDescription = 'null';
 
     public function __construct()
     {
@@ -139,8 +143,9 @@ class Listings
 
     public function setCreatedAt(\DateTime $createdAt): static
     {
-        $this->createdAt = $createdAt;
-
+        if ($this->createdAt === null) {
+            $this->createdAt = new DateTime();
+        }
         return $this;
     }
 
@@ -200,6 +205,18 @@ class Listings
                 $message->setListing(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): static
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }

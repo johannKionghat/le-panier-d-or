@@ -3,13 +3,16 @@ namespace App\Controller\annonce;
 
 use App\Entity\Listings;
 use App\Form\AnnonceType;
+use App\Repository\FavoritesRepository;
 use App\Repository\ListingsRepository;
+use App\Service\FavoriteService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CrudController extends AbstractController
 {
@@ -29,6 +32,7 @@ class CrudController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         ListingsRepository $listingsRepository,
+        UserInterface $user,
     ):Response
     {
         $form= $this->createForm(AnnonceType::class, $listings);
@@ -37,12 +41,14 @@ class CrudController extends AbstractController
         if($form -> isSubmitted() && $form -> isValid() ){
             $em->persist($listings);
             $em->flush();
-            /** @var UploadedFile $file */
-            $file=$form->get('thumbnailFile')->getData();
-            $filename='image'.$listings->getId().'.'.$file->getClientOriginalExtension();
-            $file->move($this->getParameter('kernel.project_dir').'/public/annonces/images',$filename);
-            $listings->setPhotoUrl($filename);
-            $listings->setCreatedAt(new \DateTime());
+            if ( $form->get('thumbnailFile')->getData() !== null){
+                /** @var UploadedFile $file */
+                $file=$form->get('thumbnailFile')->getData();
+                $filename='image'.$listings->getId().'.'.$file->getClientOriginalExtension();
+                $file->move($this->getParameter('kernel.project_dir').'/public/annonces/images',$filename);
+                $listings->setPhotoUrl($filename);
+            }
+            $listings->setUser($user);
             $em->persist($listings);
             $em->flush();
             $this->addFlash('succes', 'Annonce ajouter avec succes !');
@@ -71,7 +77,6 @@ class CrudController extends AbstractController
                 $file->move($this->getParameter('kernel.project_dir').'/public/annonces/images',$filename);
                 $listings->setPhotoUrl($filename);
             }
-            $listings->setCreatedAt(new \DateTime());
             $em->flush();
             $this->addFlash('success', 'L\'annonce a été modifié avec succès');
             return $this->redirectToRoute('app_homeUser');
@@ -82,13 +87,49 @@ class CrudController extends AbstractController
     }
     #[Route('annonce/delete/{id}',name:'deleteAnnonce', requirements: ['id' => Requirement::DIGITS])]
 
-    public function delete($id,ListingsRepository $listingsRepository, EntityManagerInterface $em):Response
+    public function delete($id,ListingsRepository $listingsRepository,FavoritesRepository $favoritesRepository,  EntityManagerInterface $em):Response
     {
         $listings=$listingsRepository->find($id);
+        $favorites=$favoritesRepository->findOneBy(array('listning'=>$listings));
+        $em->remove($favorites);
         $em->remove($listings);
+
         $em->flush();
         $this->addFlash('success', 'Annonce supprimer avec succès');
         return $this->redirectToRoute('app_homeUser');
     }
 
+    #[Route("/annonce/{id}/favorite", name:"annonce_favorite")]
+    public function favorite($id, ListingsRepository $listingsRepository, FavoriteService $favoriteService, UserInterface $user)
+
+    {
+        $annonce=$listingsRepository->find($id);
+        $favoriteService->addFavorite($user, $annonce);
+        return $this->redirectToRoute('app_homeUser');
+    }
+
+        
+    #[Route("/annonce/{id}/unfavorite", name:"annonce_unfavorite")]
+        public function unfavorite($id, ListingsRepository $listingsRepository, FavoriteService $favoriteService, UserInterface $user)
+    {
+        $annonce=$listingsRepository->find($id);
+        $favoriteService->removeFavorite($user, $annonce);
+        return $this->redirectToRoute('app_homeUser');
+    }
+    #[Route("favorite/show", name:"showFavorite")]
+        public function showFavorite(FavoritesRepository $favoritesRepository, ListingsRepository $listingsRepository, UserInterface $user)
+    {   $favorites = $favoritesRepository->findAll();
+            foreach ($favorites as $f){
+                $favoritesId[]= $f->getListning()->getId();
+            }
+        $annonces=$listingsRepository->findAll();
+        foreach ($annonces as $a ){
+            if(in_array($a->getId(),$favoritesId)){
+                $annoncesFavorites[]=$a;
+            };
+        }
+        return $this->render('partials/showfavorites.html.twig',[
+            'favorites'=>$annoncesFavorites
+        ]);
+    }
 }

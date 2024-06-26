@@ -5,19 +5,19 @@
 {% block body %}
     {% include 'partials/navbar.html.twig' %}
         <div class="container p-3">
-            <div class="d-flex justify-content-between flex-wrap">
-          <div class=" col card p-3">
-            <h2>{{ads.title}} </h2>
-            <hr>
-            <h2>{{ads.category}}</h2>
-            <h1 class="text-mutted">{{ads.description}}</h1>
-            <h2> {{ads.price}} €</h2>
-            <p>{{ads.createdAt|date("F D, Y H:i ")}}</p>
-          </div>
-          <div class="col">
-          <img src="/annonces/images/{{ads.photoUrl}}" alt="" style="width:100%; height:500px; object-fit:cover;">
-          </div>
-        </div>
+            <div class="row">
+              <img src="/annonces/images/{{ads.photoUrl}}" alt="" style="width:100%; height:500px; object-fit:cover;">
+            </div>
+            <div class="row">
+              <div class=" col card p-3">
+                <h2>{{ads.title}} </h2>
+                <hr>
+                <h2>{{ads.category}}</h2>
+                <small class="text-mutted">{{ads.description}}</small>
+                <h2> {{ads.price}} €</h2>
+                <p>{{ads.createdAt|date("F D, Y H:i ")}}</p>
+              </div>
+            </div>
         </div>
     {% include 'partials/footer.html.twig' %}
 {% endblock %}

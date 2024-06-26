@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -165,14 +166,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTime
+    public function getCreateAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreateAt(\DateTime $createAt): static
+    public function setCreateAt(DateTime $createAt): static
     {
-        $this->createdAt = $createAt;
+        if ($this->createdAt === null) {
+            $this->createdAt = new DateTime();
+        }
 
         return $this;
     }

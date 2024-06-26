@@ -1,0 +1,13 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/navbar.html.twig' %}
+    {% include 'partials/flash.html.twig'%}
+    <h1>Envoyer un message pour "{{ listing.title }}"</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}

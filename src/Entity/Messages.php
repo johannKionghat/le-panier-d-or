@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MessagesRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +21,7 @@ class Messages
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?User $receiverId = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne(inversedBy: 'messages',cascade: ['remove'])]
     private ?Listings $listing = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -28,7 +29,7 @@ class Messages
 
     
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $sentAt = null;
+    private ?\DateTimeInterface $sentAt =  null;
 
     public function getId(): ?int
     {
@@ -90,7 +91,9 @@ class Messages
 
     public function setSentAt(\DateTime $sentAt): static
     {
-        $this->sentAt = $sentAt;
+        if ($this->sentAt === null) {
+            $this->sentAt = new DateTime();
+        }
 
         return $this;
     }

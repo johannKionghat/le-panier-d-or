@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'partials/navbar.html.twig' %}
+    {% include 'partials/flash.html.twig'%}
+    <h1>Ma boîte de réception</h1>
+    <ul>
+        {% for message in messages %}
+            <li>
+                <strong>De:</strong> {{ message.senderId.email }}<br>
+                <strong>Message:</strong> {{ message.message }}<br>
+                <strong>Envoyé à:</strong> {{ message.sentAt|date('Y-m-d H:i') }}
+            </li>
+        {% else %}
+            <p>Vous n'avez pas de messages.</p>
+        {% endfor %}
+    </ul>
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}

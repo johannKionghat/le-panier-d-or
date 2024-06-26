@@ -16,7 +16,7 @@ class Favorites
     #[ORM\ManyToOne(inversedBy: 'favorites')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'favorites')]
+    #[ORM\ManyToOne(inversedBy: 'favorites',cascade: ['remove'])]
     private ?Listings $listning = null;
 
     public function getId(): ?int

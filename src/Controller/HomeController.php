@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ListingsRepository;
 use App\Repository\UserRepository;
+use App\Service\FavoriteService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,10 +30,11 @@ class HomeController extends AbstractController
        ]);
     }
     #[Route('/homeUser', name: 'app_homeUser')]
-    public function indexUser(ListingsRepository $listingsRepository):Response{
+    public function indexUser(ListingsRepository $listingsRepository, FavoriteService $favoriteService):Response{
         $annonces = $listingsRepository->findAll();
         return $this->render('home/index.html.twig',[
          'annonces'=>$annonces,
+         'favoriteService'=>$favoriteService
         ]);
     }
 }
