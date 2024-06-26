@@ -90,10 +90,7 @@ class CrudController extends AbstractController
     public function delete($id,ListingsRepository $listingsRepository,FavoritesRepository $favoritesRepository,  EntityManagerInterface $em):Response
     {
         $listings=$listingsRepository->find($id);
-        $favorites=$favoritesRepository->findOneBy(array('listning'=>$listings));
-        $em->remove($favorites);
         $em->remove($listings);
-
         $em->flush();
         $this->addFlash('success', 'Annonce supprimer avec succès');
         return $this->redirectToRoute('app_homeUser');
